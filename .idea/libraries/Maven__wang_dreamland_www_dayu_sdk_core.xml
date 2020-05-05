@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Maven: wang.dreamland.www:dayu-sdk-core">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/wang/dreamland/www/dayu-sdk-core/dayu-sdk-core-.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.m2/repository/wang/dreamland/www/dayu-sdk-core/dayu-sdk-core--javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/wang/dreamland/www/dayu-sdk-core/dayu-sdk-core--javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.m2/repository/wang/dreamland/www/dayu-sdk-core/dayu-sdk-core--sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/wang/dreamland/www/dayu-sdk-core/dayu-sdk-core--sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
