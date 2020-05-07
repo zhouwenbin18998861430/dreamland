@@ -240,8 +240,7 @@
 
     function normal_login() {
         if(checkUserName() && checkPassword() && checkCode()) {
-            $("#-" +
-                "").submit();
+            $("#normal_form").submit();
         }
     }
 

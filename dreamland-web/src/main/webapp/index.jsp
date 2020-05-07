@@ -445,6 +445,40 @@
     function personal(uId) {
         this.location =  "${ctx}/list?id="+uId;
     }
+    //点赞或踩
+    function upvote_click(id,cont) {
+
+        $.ajax({
+            type:'post',
+            url:'/upvote',
+            data: {"id":id,"uid":'${user.id}',"upvote":cont},
+            dataType:'json',
+            success:function(data){
+                var up =  data["data"];
+                /*alert(up);*/
+                if(up == "success"){
+                    if (cont == -1){
+                        var down = document.getElementById("down_"+id);
+                        var num = down.innerHTML;
+                        var value = parseInt(num) + cont;
+                        down.innerHTML = value;
+                    } else {
+                        var num = document.getElementById(id).innerHTML;
+                        var value = parseInt(num) + cont;
+                        document.getElementById(id).innerHTML = value;
+                        document.getElementById("up_"+id).innerHTML = value;
+                    }
+                }else if(up == "done"){
+                    alert("已点赞！")
+
+                }else if(up == "down"){
+                    alert("已踩！")
+                } else {
+                    window.location.href = "/login.jsp";
+                }
+            }
+        });
+    }
 
 
 </script>

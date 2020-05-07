@@ -51,6 +51,13 @@ public class LoginController extends BaseController {
         }
         return "../login";
     }
+    @RequestMapping("/loginout")
+    public String exit(Model model) {
+        log.info( "退出登录" );
+        getSession().removeAttribute( "user" );
+        getSession().invalidate();
+        return "../login";
+    }
 
     /**
      * 用户登录
@@ -95,7 +102,7 @@ public class LoginController extends BaseController {
 
         } else {
             //账号登录
-
+            System.out.println("email:"+email+",password:"+password+",code:"+code);
         if (StringUtils.isBlank(code)) {
             model.addAttribute("error", "fail");
             return "../login";
