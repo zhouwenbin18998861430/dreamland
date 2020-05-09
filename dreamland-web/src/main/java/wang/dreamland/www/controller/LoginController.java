@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.rmi.runtime.Log;
 import wang.dreamland.www.common.Constants;
 import wang.dreamland.www.common.MD5Util;
 import wang.dreamland.www.common.RandStringUtils;
@@ -22,7 +21,6 @@ import wang.dreamland.www.service.UserService;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
-import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -49,13 +47,6 @@ public class LoginController extends BaseController {
         if(user!=null){
             return "/personal/personal";
         }
-        return "../login";
-    }
-    @RequestMapping("/loginout")
-    public String exit(Model model) {
-        log.info( "退出登录" );
-        getSession().removeAttribute( "user" );
-        getSession().invalidate();
         return "../login";
     }
 
@@ -92,7 +83,7 @@ public class LoginController extends BaseController {
                 getSession().setAttribute("user", user);
                 model.addAttribute("user", user);
                 log.info("手机快捷登录成功");
-                return "/personal/personal";
+                return "redirect:/list";
 
             }else {
                 //验证码错误或过期
@@ -102,7 +93,7 @@ public class LoginController extends BaseController {
 
         } else {
             //账号登录
-            System.out.println("email:"+email+",password:"+password+",code:"+code);
+
         if (StringUtils.isBlank(code)) {
             model.addAttribute("error", "fail");
             return "../login";
@@ -127,7 +118,7 @@ public class LoginController extends BaseController {
             log.info("用户登录登录成功");
             getSession().setAttribute("user", user);
             model.addAttribute("user", user);
-            return "/personal/personal";
+            return "redirect:/list";
         } else {
             log.info("用户登录登录失败");
             model.addAttribute("email", email);
@@ -180,6 +171,19 @@ public class LoginController extends BaseController {
         map.put( "msg",true );
         return map;
 
+    }
+
+    /**
+     * 退出登录
+     * @param model
+     * @return
+     */
+    @RequestMapping("/loginout")
+    public String exit(Model model) {
+        log.info( "退出登录" );
+        getSession().removeAttribute( "user" );
+        getSession().invalidate();
+        return "../login";
     }
 
 

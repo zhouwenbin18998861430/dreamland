@@ -19,7 +19,6 @@ import wang.dreamland.www.service.RoleService;
 import wang.dreamland.www.service.RoleUserService;
 import wang.dreamland.www.service.UserService;
 
-import javax.ws.rs.POST;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +31,7 @@ public class RegisterController {
     private final static Logger log = Logger.getLogger(RegisterController.class);
     @Autowired
     private UserService userService;
-    @Autowired
-    private RoleService roleService;
+
     @Autowired// redis数据库操作模板
     private RedisTemplate<String, String> redisTemplate;// jdbcTemplate HibernateTemplate
     @Autowired
@@ -46,7 +44,7 @@ public class RegisterController {
      * @param phone
      * @return
      */
-    @RequestMapping(value = "/checkPhone")
+    @RequestMapping("/checkPhone")
     @ResponseBody
     public Map<String, Object> checkPhone(Model model, @RequestParam(value = "phone", required = false) String phone) {
         log.debug("注册-判断手机号" + phone + "是否可用");
@@ -104,10 +102,10 @@ public class RegisterController {
         String vcode = (String) attrs.getRequest().getSession().getAttribute(CodeCaptchaServlet.VERCODE_KEY);
 
         if (code.equals(vcode)) {
-            //验证码正确
+            //未注册
             map.put("message", "success");
         } else {
-            //验证码错误
+            //已注册
             map.put("message", "fail");
         }
 
@@ -131,6 +129,7 @@ public class RegisterController {
                              @RequestParam(value = "phone", required = false) String phone,
                              @RequestParam(value = "nickName", required = false) String nickname,
                              @RequestParam(value = "code", required = false) String code) {
+
         log.debug("注册...");
         if (StringUtils.isBlank(code)) {
             model.addAttribute("error", "非法注册，请重新注册！");
@@ -169,7 +168,7 @@ public class RegisterController {
 
             log.info("注册成功");
             SendEmail.sendEmailMessage(email, validateCode);
-            String message = email + "," + validateCode;//邮箱+激活码
+            String message = email + "," + validateCode;
             model.addAttribute("message", message);
             return "/regist/registerSuccess";
 
@@ -212,6 +211,7 @@ public class RegisterController {
         if(code==null){
             //激活码过期
             model.addAttribute( "fail","您的激活码已过期,请重新注册！" );
+            roleUserService.deleteByUid( userTrue.getId() );
             userService.deleteByEmail( email );
             return "/regist/activeFail";
         }

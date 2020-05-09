@@ -19,7 +19,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    User login(String email,String password);
+    User login(String email, String password);
 
     /**
      * 根据用户邮箱查询用户

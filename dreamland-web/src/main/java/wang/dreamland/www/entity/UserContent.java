@@ -1,8 +1,14 @@
 package wang.dreamland.www.entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
 
 public class UserContent {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long uId;
@@ -26,6 +32,9 @@ public class UserContent {
     private Integer commentNum;
 
     private String content;
+
+    @Transient
+    private  Integer num;
 
     public Long getId() {
         return id;
@@ -121,5 +130,13 @@ public class UserContent {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 }

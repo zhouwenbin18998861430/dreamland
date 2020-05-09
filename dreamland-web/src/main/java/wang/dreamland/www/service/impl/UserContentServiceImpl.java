@@ -1,5 +1,6 @@
 package wang.dreamland.www.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
@@ -43,9 +44,7 @@ public class UserContentServiceImpl implements UserContentService {
         System.out.println("每页显示："+pageSize+"条");
         PageHelper.startPage(pageNum, pageSize);//开始分页
         List<UserContent> list =  userContentMapper.select( content );
-        //List<UserContent> list = userContentMapper.findAllContent();
         Page endPage = PageHelper.endPage();//分页结束
-        List<UserContent> result = endPage.getResult();
         return endPage;
     }
 
@@ -78,8 +77,39 @@ public class UserContentServiceImpl implements UserContentService {
         return userContentMapper.selectOne( userContent );
     }
 
+
     public void updateById(UserContent content) {
         userContentMapper.updateByPrimaryKeySelective( content );
+    }
+
+    @Override
+    public List<UserContent> findCategoryByUid(Long uid) {
+        return userContentMapper.findCategoryByUid(uid);
+    }
+
+    @Override
+    public Page<UserContent> findByCategory(String category,Long uid,Integer pageNum, Integer pageSize) {
+        UserContent userContent = new UserContent();
+       if(StringUtils.isNotBlank(category) && !"null".equals(category)){
+            userContent.setCategory(category);
+        }
+        userContent.setuId(uid);
+        userContent.setPersonal("0");
+        PageHelper.startPage(pageNum, pageSize);//开始分页
+        userContentMapper.select(userContent);
+        Page endPage = PageHelper.endPage();//分页结束
+        return endPage;
+    }
+
+    @Override
+    public Page<UserContent> findPersonal(Long uid, Integer pageNum, Integer pageSize) {
+        UserContent userContent = new UserContent();
+        userContent.setuId(uid);
+        userContent.setPersonal("1");
+        PageHelper.startPage(pageNum, pageSize);//开始分页
+        userContentMapper.select(userContent);
+        Page endPage = PageHelper.endPage();//分页结束
+        return endPage;
     }
 
 

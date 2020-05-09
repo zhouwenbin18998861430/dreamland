@@ -2,7 +2,6 @@ package wang.dreamland.www.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import wang.dreamland.www.dao.UserMapper;
 import wang.dreamland.www.entity.User;
 import wang.dreamland.www.service.UserService;
@@ -15,11 +14,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Transactional
     public int regist(User user) {
-        int i = userMapper.insert(user);
-        // i = i / 0;
-        return i;
+       return userMapper.insert(user);
     }
 
     public User login(String name, String password) {
@@ -70,19 +66,19 @@ public class UserServiceImpl implements UserService {
         user.setId( id );
         return userMapper.selectOne( user );
     }
-    @Transactional
+
     public void deleteByEmail(String email) {
         User user = new User();
         user.setEmail( email );
         userMapper.delete( user );
     }
-    @Transactional
+
     public void deleteByEmailAndFalse(String email) {
         User user = new User();
         user.setEmail( email );
         userMapper.delete( user );
     }
-    @Transactional
+
     public void update(User user) {
         userMapper.updateByPrimaryKeySelective( user );
     }

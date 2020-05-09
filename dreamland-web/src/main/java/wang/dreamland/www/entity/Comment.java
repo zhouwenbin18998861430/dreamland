@@ -1,6 +1,9 @@
 package wang.dreamland.www.entity;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.Date;
+import java.util.List;
 
 public class Comment {
     private Long id;
@@ -18,6 +21,39 @@ public class Comment {
     private Integer upvote;
 
     private String comContent;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getByUser() {
+        return byUser;
+    }
+
+    public void setByUser(User byUser) {
+        this.byUser = byUser;
+    }
+
+    public List<Comment> getComList() {
+        return comList;
+    }
+
+    public void setComList(List<Comment> comList) {
+        this.comList = comList;
+    }
+
+    @Transient
+    private User user;
+
+    @Transient
+    private User byUser;
+
+    @Transient
+    private List<Comment> comList;
 
     public Long getId() {
         return id;
